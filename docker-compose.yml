@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  
+  web:
+    build: ./web
+    depends_on:
+      - flask # flaskコンテナが起動してから起動
+    links:
+      - flask # flaskコンテナとリンク
+    volumes:
+      - ./app:/var/www/app # アプリケーション開発ディレクトリ
+      # nginx設定
+      - ./web/nginx.conf:/etc/nginx/nginx.conf
+      # - ./web/logs:/etc/nginx/logs
+    network_mode: bridge
+    command: nginx -g 'daemon off;' -c /etc/nginx/nginx.conf
+    environment:
+      TZ: Asia/Tokyo
+      # VIRTUAL_HOST設定（nginx-proxy）
+      VIRTUAL_HOST: task-admin.localhost # http://fe-exam.localhost => docker://web:80
+      VIRTUAL_PORT: 80
+
+  flask:
+    build: ./flask
+    volumes:
+      - ./app:/var/www/app # アプリケーション開発ディレクトリ
+    network_mode: bridge
+    # uWSGI Emperor を使って複数のFlaskサーバーを起動できるようにする
+    command: uwsgi --emperor /var/www/app/vassals/*.ini
+    environment:
+      TZ: Asia/Tokyo

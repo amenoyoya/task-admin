@@ -1,0 +1,42 @@
+server:
+  # サーバーホスト名
+  host: task-admin.localhost
+
+  # ルートのHTML ※基本いじらない
+  root_html: |
+    <!DOCTYPE html>
+    <html lang="ja">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+      </head>
+      <body>
+        <input type="hidden" id="csrf" value="{csrf}">
+        <div id="app"></div>
+        <script src="/static/js/bundle.js"></script>
+      </body>
+    </html>
+
+api:
+  # API実行許可するIPを指定
+  ## true 指定の場合は制限なし
+  ## false 指定の場合は非公開
+  accept_ips:
+    - "172.17.0.1"
+
+# 各APIのエンドポイントリスト
+endpoints:
+  auth: /api/auth/
+  auth_session: /api/auth/session/
+  login: /api/login/
+  logout: /api/logout/
+
+# 管理画面ログイン情報
+auth:
+  members:
+    - name: admin
+      # password: hashlib.sha256('pass'.encode('utf-8')).hexdigest()
+      password: d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1
