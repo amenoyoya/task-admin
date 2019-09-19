@@ -1,0 +1,38 @@
+{
+  "waiting": [
+    {
+      "title": "これからやるやつ",
+      "content": "詳細<br>これからやる",
+      "start_date": "",
+      "limit_date": "2019-12-30",
+      "end_date": ""
+    }
+  ],
+  "working": [
+    {
+      "title": "今やってるやつ",
+      "content": "詳細<br>今やってる！",
+      "start_date": "2019-09-19",
+      "limit_date": "2019-10-10",
+      "end_date": ""
+    }
+  ],
+  "pending": [
+    {
+      "title": "保留（確認中）。。。",
+      "content": "詳細<br>ちょっと確認してもらってる<br>OR 保留中。。。",
+      "start_date": "2019-08-27",
+      "limit_date": "",
+      "end_date": ""
+    }
+  ],
+  "completed": [
+    {
+      "title": "完了したやつ！",
+      "content": "詳細<br>Mission complete!!",
+      "start_date": "2019-07-11",
+      "limit_date": "2019-09-03",
+      "end_date": "2019-09-02"
+    }
+  ] 
+}
