@@ -43,7 +43,7 @@
  |   |_ nginx.conf        # nginx設定ファイル
  |
  |_ docker-compose.yml    # DockerComposeビルド設定
-                          # - web:   Nginx 1.17 | http://fe-exam.localhost
+                          # - web:   Nginx 1.17 | http://task-admin.localhost
                           # - flask: Python 3.7 + Flask + uWSGI
 ```
 
