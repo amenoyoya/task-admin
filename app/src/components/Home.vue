@@ -21,7 +21,7 @@
                   <span class="card-header-title">{{task.title}}</span>
                   <button class="card-header-title button is-info is-pulled-right" @click.prevent="showTask(task)"><i class="fas fa-eye"></i></button>
                   <button class="card-header-title button is-link is-pulled-right" @click.prevent="editTask(task)"><i class="fas fa-edit"></i></button>
-                  <button class="card-header-title button is-danger is-pulled-right"><i class="fas fa-trash"></i></button>
+                  <button class="card-header-title button is-danger is-pulled-right" @click.prevent="removeTask(category, t_index)"><i class="fas fa-trash"></i></button>
                 </header>
                 <footer class="card-footer">
                   <time :datetime="task.start_date" class="card-footer-item"><i class="fas fa-hourglass-start"></i>&nbsp;<span>{{task.start_date}}</span></time>
@@ -115,7 +115,18 @@ export default {
     editTask(task) {
       this.edit_task = task;
       this.edit_dialog_flag = true;
-    }
+    },
+
+    // タスク削除
+    removeTask(category, index) {
+      this.$buefy.dialog.confirm({
+        message: 'タスクを削除します<br>よろしいですか？',
+        onConfirm: () => {
+          this.todo[category].tasks.splice(index, 1);
+          this.putTasks(); // タスク状況更新
+        }
+      })
+    },
   },
 
   async mounted() {
