@@ -1,0 +1,58 @@
+{
+  "completed": {
+    "name": "completed_task",
+    "open": true,
+    "tasks": [
+      {
+        "content": "## 詳細\nMission complete!!",
+        "end_date": "2019-09-02",
+        "limit_date": "2019-09-03",
+        "start_date": "2019-07-11",
+        "title": "完了したやつ！"
+      }
+    ],
+    "title": "完了"
+  },
+  "pending": {
+    "name": "pending_task",
+    "open": true,
+    "tasks": [
+      {
+        "content": "## 詳細\nちょっと確認してもらってる\nOR 保留中。。。",
+        "end_date": "",
+        "limit_date": "",
+        "start_date": "2019-08-27",
+        "title": "保留（確認中）。。。"
+      }
+    ],
+    "title": "保留・確認中"
+  },
+  "waiting": {
+    "name": "waiting_task",
+    "open": true,
+    "tasks": [
+      {
+        "content": "## 概要\nこれからやる\n\n### 詳細\nやらないとなぁ",
+        "end_date": "",
+        "limit_date": "2019-12-30 18:00",
+        "start_date": "2019-09-24 09:00",
+        "title": "これからやるやつ"
+      }
+    ],
+    "title": "未着手"
+  },
+  "working": {
+    "name": "working_task",
+    "open": true,
+    "tasks": [
+      {
+        "content": "## 詳細\n今やってる！",
+        "end_date": "",
+        "limit_date": "2019-10-10",
+        "start_date": "2019-09-19",
+        "title": "今やってるやつ"
+      }
+    ],
+    "title": "実行中"
+  }
+}

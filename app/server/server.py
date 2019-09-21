@@ -15,8 +15,20 @@ def convert_markdown(md: str):
 ## todoリスト取得
 @Application.cmd('/api/get/todo/', methods=['POST'])
 def get_todo_api():
-    with open('./static/data.json') as f:
+    if not os.path.isfile('./todo.json'):
+        return jsonify({
+            'message': 'todo.json not found'
+        }), 500
+    with open('./todo.json') as f:
         return jsonify(json.load(f))
+
+# POST /api/post/todo/
+## todoリスト更新
+@Application.cmd('/api/put/todo/', methods=['POST'])
+def put_todo_api():
+    with open('./todo.json', 'w') as f:
+        json.dump(request.json.get('todo'), f, ensure_ascii=False, indent=2)
+        return '', 204 # No Content
 
 # POST /api/post/markdown/
 ## MarkdownをHTML変換

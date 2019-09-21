@@ -44,6 +44,7 @@ export default {
       this.edit_task.content = this.content;
       this.edit_task.start_date = this.start_date;
       this.edit_task.limit_date = this.limit_date;
+      this.$emit('putTasks'); // タスク更新API実行
       this.$parent.close();
     }
   },

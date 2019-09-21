@@ -3,13 +3,13 @@
     <div class="container">
       
       <div class="tile is-ancestor">
-        <div class="tile is-3" v-for="(category, index) in todo" :key="index">
-          <b-collapse :aria-id="category.name" class="panel" :open.sync="category.open">
-            <div slot="trigger" class="panel-heading" role="button" :aria-controls="category.name">
-              <strong>{{category.title}}</strong>
+        <div class="tile is-3" v-for="(category, index) in ['waiting', 'working', 'pending', 'completed']" :key="index">
+          <b-collapse :aria-id="todo[category].name" class="panel" :open.sync="todo[category].open">
+            <div slot="trigger" class="panel-heading" role="button" :aria-controls="todo[category].name">
+              <strong>{{todo[category].title}}</strong>
             </div>
             <div class="panel-block">
-              <div class="card" v-for="(task, t_index) in category.tasks" :key="t_index" style="width: 100%;">
+              <div class="card" v-for="(task, t_index) in todo[category].tasks" :key="t_index">
                 <header class="card-header">
                   <span class="card-header-title">{{task.title}}</span>
                   <button class="card-header-title button is-info is-pulled-right" @click.prevent="showTask(task)"><i class="fas fa-eye"></i></button>
@@ -31,7 +31,7 @@
       </b-modal>
 
       <b-modal :active.sync="edit_dialog_flag" has-modal-card>
-        <edit-dialog :edit_task="edit_task"></edit-dialog>
+        <edit-dialog :edit_task="edit_task" @putTasks="putTasks"></edit-dialog>
       </b-modal>
     
     </div>
@@ -69,26 +69,39 @@ export default {
   },
 
   methods: {
+    // TODOリストを取得
+    async getTasks() {
+      const res = await axios.post('/api/get/todo/', {
+        csrf: document.getElementById('csrf').value
+      });
+      this.todo = res.data;
+    },
+
+    // TODOリストを更新
+    async putTasks() {
+      const res = await axios.post('/api/put/todo/', {
+        csrf: document.getElementById('csrf').value,
+        todo: this.todo
+      });
+      console.log(res.data);
+    },
+
+    // 指定タスクの詳細表示
     showTask(task) {
       this.detail_task = task;
       this.detail_dialog_flag = true;
     },
-
+    
+    // 指定タスクの編集
     editTask(task) {
       this.edit_task = task;
       this.edit_dialog_flag = true;
     }
   },
 
-  async mounted() {
+  mounted() {
     // TODOデータ取得
-    const res = await axios.post('/api/get/todo/', {
-      csrf: document.getElementById('csrf').value
-    });
-    this.todo.waiting.tasks = res.data.waiting;
-    this.todo.working.tasks = res.data.working;
-    this.todo.pending.tasks = res.data.pending;
-    this.todo.completed.tasks = res.data.completed;
+    this.getTasks();
   }
 }
 </script>
