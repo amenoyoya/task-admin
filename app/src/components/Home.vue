@@ -2,11 +2,15 @@
   <section class="section">
     <div class="container">
       
-      <div class="tile is-ancestor">
-        <div class="tile is-3" v-for="(category, index) in ['waiting', 'working', 'pending', 'completed']" :key="index">
+      <div v-masonry transition-duration="1s" item-selector=".masonry-item" class="masonry-container">
+        <div
+          v-masonry-tile class="masonry-item"
+          v-for="(category, index) in ['waiting', 'working', 'pending', 'completed']" :key="index"
+        >
           <b-collapse :aria-id="todo[category].name" class="panel" :open.sync="todo[category].open">
             <div slot="trigger" class="panel-heading" role="button" :aria-controls="todo[category].name">
-              <strong>{{todo[category].title}}</strong>
+              <span class="has-text-weight-bold">{{todo[category].title}}</span>
+              <button class="button is-pulled-right"><i class="fas fa-plus"></i></button>
             </div>
             <div class="panel-block">
               <div class="card" v-for="(task, t_index) in todo[category].tasks" :key="t_index">
@@ -99,9 +103,11 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     // TODOデータ取得
-    this.getTasks();
+    await this.getTasks();
+    // masonry
+    this.$redrawVueMasonry();
   }
 }
 </script>
