@@ -12,7 +12,7 @@
               <div class="card" v-for="(task, t_index) in category.tasks" :key="t_index" style="width: 100%;">
                 <header class="card-header">
                   <span class="card-header-title">{{task.title}}</span>
-                  <button class="card-header-title button is-info is-pulled-right" @click.prevent="showTask(task)"><i class="fas fa-comment"></i></button>
+                  <button class="card-header-title button is-info is-pulled-right" @click.prevent="showTask(task)"><i class="fas fa-eye"></i></button>
                   <button class="card-header-title button is-link is-pulled-right" @click.prevent="editTask(task)"><i class="fas fa-edit"></i></button>
                   <button class="card-header-title button is-danger is-pulled-right"><i class="fas fa-trash"></i></button>
                 </header>
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <b-modal :active.sync="detail_dialog_flag" has-modal-card>
+      <b-modal :active.sync="detail_dialog_flag">
         <detail-dialog :detail_task="detail_task"></detail-dialog>
       </b-modal>
 
