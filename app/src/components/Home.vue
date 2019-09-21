@@ -7,13 +7,16 @@
           v-masonry-tile class="masonry-item"
           v-for="(category, index) in ['waiting', 'working', 'pending', 'completed']" :key="index"
         >
-          <b-collapse :aria-id="todo[category].name" class="panel" :open.sync="todo[category].open">
-            <div slot="trigger" class="panel-heading" role="button" :aria-controls="todo[category].name">
+          <b-collapse :aria-id="todo[category].name" class="panel">
+            <div class="panel-heading" :aria-controls="todo[category].name">
               <span class="has-text-weight-bold">{{todo[category].title}}</span>
-              <button class="button is-pulled-right"><i class="fas fa-plus"></i></button>
+              <button class="button is-pulled-right" @click.prevent="togglePanel(category)">
+                <i :class="'fas ' + (todo[category].open? 'fa-toggle-on': 'fa-toggle-off')"></i>
+              </button>
+              <button class="button is-pulled-right" @click.prevent="newTask(category)"><i class="fas fa-plus"></i></button>
             </div>
-            <div class="panel-block">
-              <div class="card" v-for="(task, t_index) in todo[category].tasks" :key="t_index">
+            <div class="panel-block tile is-parent is-vertical" v-if="todo[category].open">
+              <div class="card tile is-child" v-for="(task, t_index) in todo[category].tasks" :key="t_index">
                 <header class="card-header">
                   <span class="card-header-title">{{task.title}}</span>
                   <button class="card-header-title button is-info is-pulled-right" @click.prevent="showTask(task)"><i class="fas fa-eye"></i></button>
@@ -90,6 +93,18 @@ export default {
       console.log(res.data);
     },
 
+    // 新規タスク挿入
+    newTask(category) {
+      this.todo[category].tasks.unshift({
+        title: '', content: '', start_date: '', limit_date: '', end_date: ''
+      });
+    },
+
+    // タスクリストの表示切り替え
+    togglePanel(category) {
+      this.todo[category].open = !this.todo[category].open;
+    },
+
     // 指定タスクの詳細表示
     showTask(task) {
       this.detail_task = task;
@@ -106,7 +121,7 @@ export default {
   async mounted() {
     // TODOデータ取得
     await this.getTasks();
-    // masonry
+    // Masonryで再整列
     this.$redrawVueMasonry();
   }
 }
