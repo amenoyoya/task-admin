@@ -9,14 +9,14 @@
         <b-input v-model="edit_task.title"></b-input>
       </b-field>
       <b-field label="開始日">
-        <b-datepicker
+        <b-datepicker v-model="edit_task.start_date"
             placeholder="Type or select a date..."
             icon="calendar-today"
             editable>
         </b-datepicker>
       </b-field>
       <b-field label="締切日">
-          <b-datepicker
+          <b-datepicker v-model="edit_task.limit_date"
               placeholder="Type or select a date..."
               icon="calendar-today"
               editable>
