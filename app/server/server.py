@@ -11,23 +11,23 @@ def convert_markdown(md: str):
         'extra', 'admonition', 'codehilite', 'meta', 'nl2br', 'sane_lists', 'smarty', 'wikilinks'
     ])
 
-# POST /api/get/todo/
-## todoリスト取得
-@Application.cmd('/api/get/todo/', methods=['POST'])
+# POST /api/get/tasks/
+## taskリスト取得
+@Application.cmd('/api/get/tasks/', methods=['POST'])
 def get_todo_api():
-    if not os.path.isfile('./todo.json'):
+    if not os.path.isfile('./tasks.json'):
         return jsonify({
-            'message': 'todo.json not found'
+            'message': 'tasks.json not found'
         }), 500
-    with open('./todo.json') as f:
+    with open('./tasks.json') as f:
         return jsonify(json.load(f))
 
-# POST /api/post/todo/
-## todoリスト更新
-@Application.cmd('/api/put/todo/', methods=['POST'])
+# POST /api/post/tasks/
+## tasksリスト更新
+@Application.cmd('/api/put/tasks/', methods=['POST'])
 def put_todo_api():
-    with open('./todo.json', 'w') as f:
-        json.dump(request.json.get('todo'), f, ensure_ascii=False, indent=2)
+    with open('./tasks.json', 'w') as f:
+        json.dump(request.json.get('tasks'), f, ensure_ascii=False, indent=2)
         return '', 204 # No Content
 
 # POST /api/post/markdown/

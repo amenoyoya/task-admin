@@ -16,6 +16,10 @@ Vue.component('ctk-datetime-picker', VueCtkDateTimePicker);
 import {VueMasonryPlugin} from 'vue-masonry';
 Vue.use(VueMasonryPlugin);
 
+// VueDraggable
+import VueDraggable from 'vuedraggable';
+Vue.component('draggable', VueDraggable);
+
 // parts
 import DetailDialog from './components/parts/DetailDialog';
 import EditDialog from './components/parts/EditDialog';
