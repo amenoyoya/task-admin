@@ -2,13 +2,13 @@
   <section class="section">
     <div class="container">
       <div class="tile is-ancestor">
-        <div class="tile is-3" v-for="category in todo">
+        <div class="tile is-3" v-for="(category, index) in todo" :key="index">
           <b-collapse :aria-id="category.name" class="panel" :open.sync="category.open">
             <div slot="trigger" class="panel-heading" role="button" :aria-controls="category.name">
               <strong>{{category.title}}</strong>
             </div>
             <div class="panel-block">
-              <div class="card" v-for="task in category.tasks">
+              <a class="card" v-for="(task, t_index) in category.tasks" :key="t_index" @click.prevent="editTask(task)">
                 <header class="card-header">
                   <p class="card-header-title">{{task.title}}</p>
                   <time v-if="task.limit_date != ''" :datetime="task.limit_date" class="card-header-title">〜<span>{{task.limit_date}}</span></time>
@@ -20,11 +20,14 @@
                   <time :datetime="task.start_date" class="card-footer-item">開始日: <span>{{task.start_date}}</span></time>
                   <time :datetime="task.end_date" class="card-footer-item">完了日: <span>{{task.end_date}}</span></time>
                 </footer>
-              </div>
+              </a>
             </div>
           </b-collapse>
         </div>
       </div>
+      <b-modal :active.sync="edit_dialog_flag" has-modal-card>
+        <edit-dialog :edit_task="edit_task"></edit-dialog>
+      </b-modal>
     </div>
   </section>
 </template>
@@ -48,8 +51,19 @@ export default {
         completed: {
           name: 'completed_task', title: '完了', open: true, tasks: [],
         }
+      },
+      edit_dialog_flag: false,
+      edit_task: {
+        title: '', content: ''
       }
     };
+  },
+
+  methods: {
+    editTask(task) {
+      this.edit_task = task;
+      this.edit_dialog_flag = true;
+    }
   },
 
   async mounted() {
