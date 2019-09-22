@@ -25,7 +25,9 @@
               class="panel-block tile is-parent is-vertical" v-if="category.open"
               :data-group="index"
             >
-              <div :class="'card tile is-child ' + (index == 3? 'is-disabled': '')" v-for="(task, t_index) in tasks[index]" :key="'task-' + index + '-' + t_index">
+              <div v-for="(task, t_index) in tasks[index]" :key="'task-' + index + '-' + t_index"
+                :class="'card tile is-child ' + getTaskClass(index, task)"
+              >
                 <header class="card-header">
                   <!-- タスクタイトル、タスク編集系ボタン表示 -->
                   <span class="card-header-title">{{task.title}}</span>
@@ -76,13 +78,13 @@ export default {
           title: '未着手', class: 'is-warning', open: true
         },
         {
-          title: '実行中', class: 'is-primary', open: true
+          title: '実行中', class: 'is-success', open: true
         },
         {
           title: '保留・確認中', class: 'is-info', open: true
         },
         {
-          title: '完了', class: 'is-success', open: true
+          title: '完了', class: 'is-primary', open: true
         },
       ],
       // タスクリスト
@@ -123,6 +125,28 @@ export default {
     // タスクリストの表示切り替え
     toggleCategoryPanel(category_index) {
       this.categories[category_index].open = !this.categories[category_index].open;
+    },
+
+    // 各タスクのスタイルクラスを取得
+    getTaskClass(category_index, task) {
+      // 完了タスクリストの場合
+      if (category_index == 3) {
+        return 'is-completed';
+      }
+      // 現在日時と締切日時の差分から文字色変更
+      if (task.limit_date == '') {
+        return '';
+      }
+      const diff = moment(task.limit_date).diff(moment(), 'minutes');
+      if (diff < 0) {
+        // 締切日超過
+        return 'has-text-danger';
+      }
+      if (diff <= 60 * 24) {
+        // 本日締切
+        return 'has-text-success';
+      }
+      return '';
     },
 
     // 指定タスクの詳細表示
