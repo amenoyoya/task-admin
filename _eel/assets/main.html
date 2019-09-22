@@ -11,17 +11,6 @@
         <meta name="description" content="TODOタスクを簡易的に管理するためのWebアプリ">
         <!-- Eelアプリケーション用ライブラリ -->
         <script src="/eel.js"></script>
-        <!-- Eelアプリケーション用スクリプト -->
-        <script>
-            // 右クリックイベントをスルー
-            document.oncontextmenu = function () {
-                return false;
-            }
-            // 終了イベント
-            window.onclose = function () {
-                eel.exit_system()() // pythonで定義した exit_system 関数を実行
-            }
-        </script>
     </head>
     <body>
         <div id="app"></div>

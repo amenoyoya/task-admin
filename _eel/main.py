@@ -1,12 +1,7 @@
-import os, sys, json, eel
+import os, sys, json, eel, yaml
 from markdown import markdown
 
 # --- Eel公開関数 ---
-## システム終了: None -> None
-@eel.expose
-def exit_system() -> None:
-    sys.exit()
-
 ## convert markdown code to html: str -> str
 @eel.expose
 def convert_markdown(md: str) -> str:
@@ -29,6 +24,13 @@ def save_tasks(tasks: list) -> None:
         json.dump(tasks, f, ensure_ascii=False, indent=2)
 
 # --- Eel Application ---
+## load config.yml
+options = {'eel': {}}
+if os.path.isfile('./config.yml'):
+    with open('./config.yml') as f:
+        options = yaml.load(f)
+
 ## start: ./assets/main.html
+## close callback: システム終了
 eel.init('assets')
-eel.start('main.html')
+eel.start('main.html', close_callback = lambda: sys.exit(), **options['eel'])
