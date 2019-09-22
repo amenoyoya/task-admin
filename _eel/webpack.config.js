@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/index.js', // コンパイルのエントリーポイントファイル
   // 出力先パス（絶対パス指定）
   output: {
-    path: path.join(__dirname, 'server', 'static', 'js'),
+    path: path.join(__dirname, 'assets', 'js'),
     filename: 'bundle.js'
   },
   module: {

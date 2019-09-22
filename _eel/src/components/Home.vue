@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import moment from 'moment';
 
 export default {
@@ -101,25 +100,21 @@ export default {
   methods: {
     // タスクリストを取得
     async getTasks() {
-      const res = await axios.post('/api/get/tasks/', {
-        csrf: document.getElementById('csrf').value
-      });
-      this.tasks = res.data;
+      this.tasks = await eel.load_tasks()();
     },
 
     // タスクリストを更新
     async putTasks() {
-      const res = await axios.post('/api/put/tasks/', {
-        csrf: document.getElementById('csrf').value,
-        tasks: this.tasks
-      });
+      await eel.save_tasks(this.tasks)();
     },
 
     // 新規タスク挿入
-    newTask(category_index) {
-      this.tasks[category_index].unshift({
+    async newTask(category_index) {
+      await this.tasks[category_index].unshift({
         title: '', content: '', start_date: '', limit_date: '', end_date: ''
       });
+      // Masonry再整列
+      this.$redrawVueMasonry();
     },
 
     // タスクリストの表示切り替え
@@ -173,7 +168,7 @@ export default {
     },
 
     // ドラッグ終了時処理
-    onDragEnd(evt) {
+    async onDragEnd(evt) {
       // 完了タスク以外から完了タスクに移動したら、完了日（＝現在日時）セット
       const completed_index = 3;
       if (evt.from.dataset.group != completed_index && evt.to.dataset.group == completed_index) {
@@ -184,7 +179,7 @@ export default {
         this.tasks[evt.to.dataset.group][evt.newIndex].end_date = '';
       }
       // タスクリスト更新
-      this.putTasks();
+      await this.putTasks();
       // Masonry再整列
       this.$redrawVueMasonry();
     }

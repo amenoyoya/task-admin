@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   props: ['detail_task'],
   data() {
@@ -43,11 +41,7 @@ export default {
     };
   },
   async mounted() {
-    const res = await axios.post('/api/post/markdown/', {
-      csrf: document.getElementById('csrf').value,
-      markdown: this.detail_task.content
-    });
-    this.content = res.data.html;
+    this.content = await eel.convert_markdown(this.detail_task.content)();
   }
 }
 </script>
