@@ -19,8 +19,10 @@
               - group: グループ名を統一することで別タスクグループへのD&D可能に
             -->
             <!-- 各タスクカードは縦並びタイル化する -->
+            <!-- ドラッグ前後の情報を確認するためタスクリストのindexをdata-groupに保持 -->
             <draggable v-model="tasks[index]" group="task_group" @end="onDragEnd"
               class="panel-block tile is-parent is-vertical" v-if="category.open"
+              :data-group="index"
             >
               <div :class="'card tile is-child ' + (index == 3? 'is-disabled': '')" v-for="(task, t_index) in tasks[index]" :key="'task-' + index + '-' + t_index">
                 <header class="card-header">
@@ -62,6 +64,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
   data() {
@@ -145,7 +148,16 @@ export default {
     },
 
     // ドラッグ終了時処理
-    onDragEnd() {
+    onDragEnd(evt) {
+      // 完了タスク以外から完了タスクに移動したら、完了日（＝現在日時）セット
+      const completed_index = 3;
+      if (evt.from.dataset.group != completed_index && evt.to.dataset.group == completed_index) {
+        this.tasks[completed_index][evt.newIndex].end_date = moment().format('YYYY-MM-DD HH:mm');
+      }
+      // 完了タスクから完了タスク以外に移動したら、完了日を削除
+      if (evt.from.dataset.group == completed_index && evt.to.dataset.group != completed_index) {
+        this.tasks[evt.to.dataset.group][evt.newIndex].end_date = '';
+      }
       // タスクリスト更新
       this.putTasks();
       // Masonry再整列
