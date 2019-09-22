@@ -6,31 +6,45 @@
         <div v-masonry-tile class="masonry-item"
           v-for="(category, index) in categories" :key="'category-' + index"
         >
-          <b-collapse :aria-id="category.name" class="panel">
-            <div class="panel-heading" :aria-controls="category.name">
+          <div class="panel">
+            <div :class="'panel-heading notification ' + category.class">
               <span class="has-text-weight-bold">{{category.title}}</span>
               <button class="button is-pulled-right" @click.prevent="toggleCategoryPanel(index)">
                 <i :class="'fas ' + (category.open? 'fa-toggle-on': 'fa-toggle-off')"></i>
               </button>
               <button class="button is-pulled-right" @click.prevent="newTask(index)"><i class="fas fa-plus"></i></button>
             </div>
+            <!-- 各タスクカードはドラッグ可能にする
+              - v-model: vue.tasks[] 配列 と現在の状況を同期
+              - group: グループ名を統一することで別タスクグループへのD&D可能に
+            -->
+            <!-- 各タスクカードは縦並びタイル化する -->
             <draggable v-model="tasks[index]" group="task_group" @end="onDragEnd"
               class="panel-block tile is-parent is-vertical" v-if="category.open"
             >
-              <div class="card tile is-child" v-for="(task, t_index) in tasks[index]" :key="'task-' + index + '-' + t_index">
+              <div :class="'card tile is-child ' + (index == 3? 'is-disabled': '')" v-for="(task, t_index) in tasks[index]" :key="'task-' + index + '-' + t_index">
                 <header class="card-header">
+                  <!-- タスクタイトル、タスク編集系ボタン表示 -->
                   <span class="card-header-title">{{task.title}}</span>
                   <button class="card-header-title button is-info is-pulled-right" @click.prevent="showTask(task)"><i class="fas fa-eye"></i></button>
                   <button class="card-header-title button is-link is-pulled-right" @click.prevent="editTask(task)"><i class="fas fa-edit"></i></button>
                   <button class="card-header-title button is-danger is-pulled-right" @click.prevent="removeTask(index, t_index)"><i class="fas fa-trash"></i></button>
                 </header>
                 <footer class="card-footer">
+                  <!-- 開始日表示 -->
                   <time :datetime="task.start_date" class="card-footer-item"><i class="fas fa-hourglass-start"></i>&nbsp;<span>{{task.start_date}}</span></time>
-                  <time :datetime="task.limit_date" class="card-footer-item"><i class="fas fa-hourglass-end"></i>&nbsp;<span>{{task.limit_date}}</span></time>
+                  <!-- 完了タスク以外は締切日を表示 -->
+                  <time v-if="index < 3" :datetime="task.limit_date" class="card-footer-item">
+                    <i class="fas fa-hourglass-end"></i>&nbsp;<span>{{task.limit_date}}</span>
+                  </time>
+                  <!-- 完了タスクは完了日を表示 -->
+                  <time v-else :datetime="task.end_date" class="card-footer-item">
+                    <i class="fas fa-check"></i>&nbsp;<span>{{task.end_date}}</span>
+                  </time>
                 </footer>
               </div>
             </draggable>
-          </b-collapse>
+          </div>
         </div>
       </div>
 
@@ -55,16 +69,16 @@ export default {
       // カテゴリーリスト
       categories: [
         {
-          name: 'waiting_task', title: '未着手', open: true
+          title: '未着手', class: 'is-warning', open: true
         },
         {
-          name: 'working_task', title: '実行中', open: true
+          title: '実行中', class: 'is-primary', open: true
         },
         {
-          name: 'pending_task', title: '保留・確認中', open: true
+          title: '保留・確認中', class: 'is-info', open: true
         },
         {
-          name: 'completed_task', title: '完了', open: true
+          title: '完了', class: 'is-success', open: true
         },
       ],
       // タスクリスト
