@@ -17,6 +17,12 @@
           <b-tag type="is-info">{{detail_task.limit_date}}</b-tag>
         </b-taglist>
       </div>
+      <div class="control">
+        <b-taglist attached>
+          <b-tag type="is-dark"><i class="fas fa-check"></i></b-tag>
+          <b-tag type="is-info">{{detail_task.end_date}}</b-tag>
+        </b-taglist>
+      </div>
     </b-field>
     <div class="content" v-html="content"></div>
   </section>

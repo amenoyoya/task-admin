@@ -1,7 +1,8 @@
 <template>
   <section class="section">
     <div class="container">
-      
+      <h1 class="title">タスク管理アプリ</h1>
+
       <div v-masonry transition-duration="0.2s" item-selector=".masonry-item" class="masonry-container">
         <div v-masonry-tile class="masonry-item"
           v-for="(category, index) in categories" :key="'category-' + index"
