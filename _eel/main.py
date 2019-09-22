@@ -1,4 +1,5 @@
-import os, sys, json, eel, yaml
+import bottle_websocket, eel
+import os, sys, json, yaml
 from markdown import markdown
 
 # --- Eel公開関数 ---

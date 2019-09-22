@@ -1,5 +1,4 @@
 eel
-pyinstaller
 pyyaml
 markdown
 pygments
