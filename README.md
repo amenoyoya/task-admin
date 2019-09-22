@@ -141,6 +141,12 @@ $ cd ./_electron/
 # install node modules
 $ yarn install
 
+# global install: electron
+$ yarn global add electron-prebuilt
+
+# PATHが通っていないなら通しておく
+## `yarn global bin` で表示されるPATHを通す
+
 # start electron application
-$ yarn electron main.js
+$ electron main.js
 ```
