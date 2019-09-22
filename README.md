@@ -88,3 +88,59 @@ $ yarn watch   # js, vue ファイル変更検知＆バンドル
     # server.log
     % less server.log
     ```
+
+***
+
+## Eel版
+
+### What's this?
+- Eel:
+    - Local GUI application libarary for python by Chrome Browser
+
+### Environment
+- OS:
+    - Windows 10
+    - Ubuntu 18.04
+- Applications:
+    - Python: `3.7`
+    - Google Chrome Browser
+
+### Setup
+```bash
+# project dir: _eel
+$ cd ./_eel/
+
+# install python modules
+$ pip install -r requirements.txt
+
+# start eel application
+$ python main.py
+```
+
+***
+
+## Electron版
+
+### What's this?
+- Electron:
+    - Local GUI application libarary for Node.js
+
+### Environment
+- OS:
+    - Windows 10
+    - Ubuntu 18.04
+- Applications:
+    - Node.js: `10.15.3`
+        - yarn package manager: `1.15.2`
+
+### Setup
+```bash
+# project dir: _electron
+$ cd ./_electron/
+
+# install node modules
+$ yarn install
+
+# start electron application
+$ yarn electron main.js
+```
