@@ -101,11 +101,15 @@ export default {
     // タスクリストを取得
     async getTasks() {
       this.tasks = await loadTasks();
+      // Masonry再整列
+      this.$redrawVueMasonry();
     },
 
     // タスクリストを更新
     async putTasks() {
       await saveTasks(this.tasks);
+      // Masonry再整列
+      this.$redrawVueMasonry();
     },
 
     // 新規タスク挿入
@@ -180,16 +184,12 @@ export default {
       }
       // タスクリスト更新
       await this.putTasks();
-      // Masonry再整列
-      this.$redrawVueMasonry();
     }
   },
 
   async mounted() {
     // タスクリスト取得
     await this.getTasks();
-    // Masonry再整列
-    this.$redrawVueMasonry();
   }
 }
 </script>

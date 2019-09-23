@@ -22,5 +22,5 @@ const loadTasks = () => {
  * タスクリスト保存
  */
 const saveTasks = (tasks) => {
-  return fs.writeFile('./tasks.json', JSON.stringify(tasks));
+  return fs.writeFile('./tasks.json', JSON.stringify(tasks, null, '  '));
 }
