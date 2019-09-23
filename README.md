@@ -1,7 +1,8 @@
 # task-admin
 
-
 タスク管理アプリ
+
+![screenshot](./screenshot.gif)
 
 ## Environment
 
