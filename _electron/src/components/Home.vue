@@ -100,12 +100,12 @@ export default {
   methods: {
     // タスクリストを取得
     async getTasks() {
-      this.tasks = await eel.load_tasks()();
+      this.tasks = await loadTasks();
     },
 
     // タスクリストを更新
     async putTasks() {
-      await eel.save_tasks(this.tasks)();
+      await saveTasks(this.tasks);
     },
 
     // 新規タスク挿入

@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import marked from 'marked';
+
 export default {
   props: ['detail_task'],
   data() {
@@ -41,7 +43,7 @@ export default {
     };
   },
   async mounted() {
-    this.content = await eel.convert_markdown(this.detail_task.content)();
+    this.content = marked(this.detail_task.content);
   }
 }
 </script>
