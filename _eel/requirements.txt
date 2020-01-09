@@ -1,4 +1,0 @@
-eel
-pyyaml
-markdown
-pygments
