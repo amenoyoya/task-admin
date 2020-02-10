@@ -1,62 +1,59 @@
-const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const path = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
-  mode: 'development', // 開発: development, 本番: production
-  entry: './src/index.js', // コンパイルのエントリーポイントファイル
-  // 出力先パス（絶対パス指定）
+  mode: 'development', // 実行モード: development => 開発, production => 本番
+  entry: './src/index.js', // エントリーポイント: ソースとなる JS ファイル
+  // 出力設定: => ./public/index.js
   output: {
-    path: path.join(__dirname, 'assets', 'js'),
-    filename: 'bundle.js'
+    filename: 'index.js', // バンドル後のファイル名
+    path: path.join(__dirname, 'public') // 出力先のパス（※絶対パスで指定すること）
   },
+  // モジュール読み込みの設定
   module: {
-    // コンパイル設定
     rules: [
+      // .js ファイルを babel-loader でトランスコンパイル
       {
-        // .js ファイル
         test: /\.js$/,
+        exclude: /node_modules/, // node_modules/ 内のファイルは除外
         use: [
+          // babel-loader を利用
           {
-            loader: 'babel-loader', // babel-loader で ECMAScript5 にトランスコンパイル
+            loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env']　// ブラウザ環境に合わせて自動的にコンパイル
-            }
-          }
-        ]
-      },
-      {
-        // .vue ファイル
-        test: /\.vue$/,
-        use: [
-          {
-            loader: 'vue-loader', // vue-loader で Vueコンポーネントファイルをコンパイル
-            options: {
-              loaders: {
-                js: ['babel-loader'] // .vue ファイル内の script タグを babel-loader でトランスコンパイル
-              },
+              // @babel/preset-env の構文拡張を有効に
               presets: ['@babel/preset-env']
             }
           }
         ]
       },
+      // Vue単一ファイルコンポーネント（.vue ファイル）読み込み設定
       {
-        // jsonファイル
-        test: /\.json$/,
-        type: "javascript/auto",
+        test: /\.vue$/,
+        // vue-loaderを使って .vue ファイルをコンパイル
         use: [
           {
-            loader: 'json-loader'
-          }
-        ]
+            loader: 'vue-loader',
+          },
+        ],
       },
+      // スタイルシート（.css ファイル）読み込み設定
       {
-        // .css ファイル: css-loader => style-loader の順に適用
+        // .css ファイル: css-loader => vue-style-loader の順に適用
         // - css-loader: cssをJSにトランスコンパイル
         // - style-loader: <link>タグにスタイル展開
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
-      /* アイコンloader設定 */
+      // Sass（.scss ファイル）コンパイル設定
+      {
+        // sass-loader => css-loader => vue-style-loader の順に適用
+        // vue-style-loader を使うことで .vue ファイル内で <style lang="scss"> を使えるようになる
+        test: /\.scss$/,
+        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+      },
+
+      /* アイコンローダーの設定 */
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         use: [{
@@ -64,32 +61,22 @@ module.exports = {
         }],
       },
       {
-        test: /\.woff(\d+)?(\?v=\d+\.\d+\.\d+)?$/,
-        use: [{
-          loader: 'url-loader?mimetype=application/font-woff'
-        }],
-      },
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: [{
-          loader: 'url-loader?mimetype=application/font-woff'
-        }],
-      },
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(ttf|eot|woff|woff2)(\d+)?(\?v=\d+\.\d+\.\d+)?$/,
         use: [{
           loader: 'url-loader?mimetype=application/font-woff'
         }],
       },
     ]
   },
-  // import設定
+  // import文で読み込むモジュールの設定
   resolve: {
-    extensions: [".js", ".vue", ".json"], // .js, .vue, .json を import
-    modules: ["node_modules"],
+    extensions: [".js", ".vue"], // .js, .vue をimport可能に
+    modules: ["node_modules"], // node_modulesディレクトリからも import できるようにする
     alias: {
-      vue$: 'vue/dist/vue.esm.js', // vue-template-compiler用
+      // vue-template-compilerに読ませてコンパイルするために必要な設定
+      vue$: 'vue/dist/vue.esm.js',
     },
   },
-  plugins: [new VueLoaderPlugin()]
-};
+  // VueLoaderPluginを使う
+  plugins: [new VueLoaderPlugin()],
+}

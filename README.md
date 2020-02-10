@@ -2,15 +2,12 @@
 
 タスク管理アプリ
 
-![screenshot](./screenshot.gif)
+![screenshot1.png](./screenshot1.gif)
+
+![screenshot2.png](./screenshot2.gif)
 
 - Electron:
     - Local GUI application libarary for Node.js
-
-## 更新履歴
-
-- Eel版削除
-- Webアプリ版削除
 
 ***
 
@@ -20,8 +17,8 @@
     - Windows 10
     - Ubuntu 18.04
 - Applications:
-    - Node.js: `10.15.3`
-        - yarn package manager: `1.15.2`
+    - Node.js: `12.14.1`
+        - yarn package manager: `1.21.1`
 
 ### Setup
 ```bash
