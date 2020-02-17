@@ -37,8 +37,8 @@ export default {
   methods: {
     // 新規タスク追加
     addTask() {
-      // 未着手タスクリストに新規追加
-      this.task_lists[0].push({title: '', start_date: '', limit_date: ''})
+      // 未着手タスクリストに新規追加（見やすさのため、リストの頭に追加する）
+      this.task_lists[0].unshift({title: '', start_date: '', limit_date: ''})
       // DOM更新後にMasonryによる整列を実行
       this.$nextTick(function() {
         this.$redrawVueMasonry()
